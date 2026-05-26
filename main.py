@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from crud import get_tickets, get_ticket, create_ticket, update_ticket
 from schemas import TicketCreate, TicketResponse, TicketUpdate
+from schemas import CommentCreate, CommentResponse
+from crud import get_comments, create_comment
 
 app = FastAPI()
 
@@ -45,3 +47,22 @@ def update_one_ticket(ticket_id: int, ticket_update: TicketUpdate, db: Session =
     if not db_ticket:
         raise HTTPException(status_code=404, detail="Ticket not found")
     return db_ticket
+
+@app.post('/tickets/{ticket_id}/comments', response_model=CommentResponse)
+def add_comment(ticket_id: int, comment: CommentCreate, db: Session = Depends(get_db)):
+    # Проверяем, существует ли заявка
+    ticket = get_ticket(db, ticket_id)
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+    # Запрещаем пустой комментарий
+    if not comment.text or not comment.text.strip():
+        raise HTTPException(status_code=400, detail="Comment text cannot be empty")
+    return create_comment(db, ticket_id, comment)
+
+@app.get('/tickets/{ticket_id}/comments', response_model=list[CommentResponse])
+def list_comments(ticket_id: int, db: Session = Depends(get_db)):
+    # Проверяем, существует ли заявка
+    ticket = get_ticket(db, ticket_id)
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+    return get_comments(db, ticket_id)

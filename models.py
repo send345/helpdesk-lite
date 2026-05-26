@@ -14,3 +14,12 @@ class Ticket(Base):
     assignee_name = Column(String, default="")
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
+class Comment(Base):
+    __tablename__ = "comments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    ticket_id = Column(Integer, nullable=False)
+    author_name = Column(String, nullable=False)
+    text = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.now)

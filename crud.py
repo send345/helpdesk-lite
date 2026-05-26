@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from models import Ticket
 from schemas import TicketCreate, TicketUpdate
+from models import Comment
+from schemas import CommentCreate
 
 # Получить все заявки (с фильтрами)
 def get_tickets(db: Session, status: str = None, priority: str = None):
@@ -42,3 +44,19 @@ def update_ticket(db: Session, ticket_id: int, ticket_update: TicketUpdate):
     db.commit()
     db.refresh(db_ticket)
     return db_ticket
+
+# Получить все комментарии заявки
+def get_comments(db: Session, ticket_id: int):
+    return db.query(Comment).filter(Comment.ticket_id == ticket_id).all()
+
+# Создать комментарий
+def create_comment(db: Session, ticket_id: int, comment: CommentCreate):
+    db_comment = Comment(
+        ticket_id=ticket_id,
+        author_name=comment.author_name,
+        text=comment.text
+    )
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment

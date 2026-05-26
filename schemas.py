@@ -27,3 +27,16 @@ class TicketUpdate(BaseModel):
     status: Optional[str] = None
     priority: Optional[str] = None
     assignee_name: Optional[str] = None
+
+# Схема для создания комментария
+class CommentCreate(BaseModel):
+    author_name: str
+    text: str
+
+# Схема для ответа с комментарием
+class CommentResponse(BaseModel):
+    id: int
+    ticket_id: int
+    author_name: str
+    text: str
+    created_at: datetime
