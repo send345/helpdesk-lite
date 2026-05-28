@@ -8,17 +8,17 @@
 - [x] Тесты
 
 ## Спринт 2
-- [ ] PostgreSQL
-- [ ] Таблица tickets
-- [ ] POST /tickets
-- [ ] GET /tickets
-- [ ] GET /tickets/{id}
-- [ ] PATCH /tickets/{id}
+- [x] PostgreSQL
+- [x] Таблица tickets
+- [x] POST /tickets
+- [x] GET /tickets
+- [x] GET /tickets/{id}
+- [x] PATCH /tickets/{id}
 
 ## Спринт 3
-- [ ] Таблица comments
-- [ ] POST /tickets/{id}/comments
-- [ ] GET /tickets/{id}/comments
+- [x] Таблица comments
+- [x] POST /tickets/{id}/comments
+- [x] GET /tickets/{id}/comments
 
 ## Спринт 4
 - [ ] Dockerfile
