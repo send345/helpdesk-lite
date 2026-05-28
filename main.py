@@ -6,6 +6,7 @@ from schemas import TicketCreate, TicketResponse, TicketUpdate
 from schemas import CommentCreate, CommentResponse
 from crud import get_comments, create_comment
 import logging
+from crud import get_stats
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -73,3 +74,7 @@ def list_comments(ticket_id: int, db: Session = Depends(get_db)):
     if not ticket:
         raise HTTPException(status_code=404, detail="Ticket not found")
     return get_comments(db, ticket_id)
+
+@app.get('/stats/tickets')
+def get_ticket_stats(db: Session = Depends(get_db)):
+    return get_stats(db)

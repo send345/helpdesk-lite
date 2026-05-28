@@ -60,3 +60,13 @@ def create_comment(db: Session, ticket_id: int, comment: CommentCreate):
     db.commit()
     db.refresh(db_comment)
     return db_comment
+
+# Получить статистику по статусам заявок
+def get_stats(db: Session):
+    from sqlalchemy import func
+    all_statuses = ["new", "in_progress", "resolved", "closed"]
+    results = db.query(Ticket.status, func.count(Ticket.id)).group_by(Ticket.status).all()
+    stats = {status: 0 for status in all_statuses}
+    for status, count in results:
+        stats[status] = count
+    return stats
